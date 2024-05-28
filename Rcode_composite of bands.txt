@@ -1,0 +1,57 @@
+library(raster)
+library(sf)
+library(dplyr)
+library(terra)
+
+#Bands loading
+# Blue
+b2 <- rast('path to directory/filename.tif')
+b2
+# Green
+b3 <- rast('path to directory/filename.tif')
+b3
+# Red
+b4 <- rast('path to directory/filename.tif')
+b4
+# Near Infrared (NIR)
+b5 <- rast('path to directory/filename.tif')
+b5
+# SWIR1
+b6 <- rast('path to directory/filename.tif')
+b6
+# SWIR2
+b7 <- rast('path to directory/filename.tif')
+b7
+
+# Plot individual bands
+par(mfrow = c(3,2))
+plot(b2, main = "Blue", col = gray(0:100 / 100))
+plot(b3, main = "Green", col = gray(0:100 / 100))
+plot(b4, main = "Red", col = gray(0:100 / 100))
+plot(b5, main = "NIR", col = gray(0:100 / 100))
+plot(b6, main = "SWIR1", col = gray(0:100 / 100))
+plot(b7, main = "SWIR2", col = gray(0:100 / 100))
+
+# Plot RGB
+par(mfrow = c(1,1))
+RGB_30m <- c(b4, b3, b2)
+RGB_30m
+names(RGB_30m)
+names(RGB_30m) <- c('Red', 'Blue', 'Green')
+names(RGB_30m)
+plotRGB(RGB_30m, stretch = "lin",main = "RGB",)
+
+# Plot fcc
+par(mfrow = c(1,1))
+FCC_30m <- c(b5, b6, b7)
+plotRGB(FCC_30m, stretch="lin")
+
+#multi-layer SpatRaster using the filenames
+MLS_30m<- c(b2, b3, b4,b5, b6, b7)
+MLS_30m
+names(MLS_30m)
+names(MLS_30m) <- c('Blue', 'Green', 'Red', 'NIR', 'SWIR1', 'SWIR2')
+names(MLS_30m)
+MLS_30m
+#Write
+writeRaster(MLS_30m, filename="path to directory/filename.tif", overwrite=TRUE)
